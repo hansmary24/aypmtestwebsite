@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apostle of the Youth Prayer Movement (AYPM)</title>
+  <meta name="description" content="Official website of the Apostle of the Youth Prayer Movement (AYPM) — Blessed Ivan Merz Family, canonically erected under the Diocese of Banja Luka.">
+
+  <!-- Google Fonts: EB Garamond -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            garamond: ['"EB Garamond"', 'Georgia', 'serif'],
+            helvetica: ['"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --font-helvetica: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-garamond: 'EB Garamond', Georgia, serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: #000;
+      color: #fff;
+    }
+
+    body {
+      font-family: var(--font-helvetica);
+      background-color: #000;
+      color: #fff;
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .font-serif-garamond {
+      font-family: 'EB Garamond', Georgia, serif;
+    }
+
+    .font-helvetica {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    /* Fixed Background Canvas */
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background-color: #000;
+    }
+
+    #animation-canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Ultra-light Ambient Vignette Overlay - Keeps the painting bright & visible */
+    .cinematic-vignette {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.25) 75%, rgba(0, 0, 0, 0.45) 100%);
+    }
+
+    /* High Legibility Text Shadows for Overlaying Art */
+    .text-shadow-sm {
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    }
+    .text-shadow-md {
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 2px rgba(0, 0, 0, 0.9);
+    }
+    .text-shadow-lg {
+      text-shadow: 0 3px 14px rgba(0, 0, 0, 0.95), 0 0 6px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Minimalist Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #000;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Candle Flame Keyframe Animations */
+    @keyframes flameFlicker {
+      0%, 100% {
+        transform: scale(1) rotate(0deg) skewX(0deg);
+        filter: drop-shadow(0 0 16px rgba(251, 191, 36, 0.8)) drop-shadow(0 0 32px rgba(245, 158, 11, 0.5));
+      }
+      20% {
+        transform: scale(1.04, 0.96) rotate(-1.5deg) skewX(-1deg);
+        filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.9)) drop-shadow(0 0 40px rgba(245, 158, 11, 0.6));
+      }
+      40% {
+        transform: scale(0.96, 1.04) rotate(1deg) skewX(0.8deg);
+        filter: drop-shadow(0 0 14px rgba(251, 191, 36, 0.75)) drop-shadow(0 0 28px rgba(245, 158, 11, 0.45));
+      }
+      60% {
+        transform: scale(1.02, 0.98) rotate(-0.8deg) skewX(-0.5deg);
+        filter: drop-shadow(0 0 18px rgba(251, 191, 36, 0.85)) drop-shadow(0 0 36px rgba(245, 158, 11, 0.55));
+      }
+      80% {
+        transform: scale(0.98, 1.02) rotate(1.2deg) skewX(1deg);
+        filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.8)) drop-shadow(0 0 30px rgba(245, 158, 11, 0.5));
+      }
+    }
+
+    @keyframes flameInnerFlicker {
+      0%, 100% {
+        transform: scale(1) translateY(0);
+        opacity: 0.9;
+      }
+      50% {
+        transform: scale(0.94, 1.06) translateY(-1px);
+        opacity: 0.98;
+      }
+    }
+
+    @keyframes warmGlowPulse {
+      0%, 100% {
+        opacity: 0.7;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.95;
+        transform: scale(1.08);
+      }
+    }
+
+    @keyframes floatingEmber {
+      0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+      }
+      30% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-80px) scale(0);
+        opacity: 0;
+      }
+    }
+
+    .candle-flame-animated {
+      animation: flameFlicker 3.2s ease-in-out infinite;
+      transform-origin: 50% 90%;
+    }
+
+    .candle-inner-flame-animated {
+      animation: flameInnerFlicker 1.8s ease-in-out infinite;
+      transform-origin: 50% 85%;
+    }
+
+    .candle-glow-pulse {
+      animation: warmGlowPulse 4s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-black text-white selection:bg-white selection:text-black">
+
+  <!-- Fixed Canvas for 300-Frame Scroll Animation -->
+  <div id="canvas-container">
+    <canvas id="animation-canvas"></canvas>
+  </div>
+
+  <!-- Ambient Light Vignette Overlay -->
+  <div class="cinematic-vignette"></div>
+
+  <!-- Content Layer on Top of Animation (z-10) -->
+  <div class="relative z-10 min-h-screen flex flex-col">
+
+    <!-- 1. OFFICIAL STICKY NAVBAR (Translucent Glass) -->
+    <header class="sticky top-0 z-50 w-full bg-black/40 backdrop-blur-md border-b border-white/15 px-4 sm:px-8 py-3.5 select-none font-helvetica">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center gap-7 text-sm xl:text-base text-white/80 font-helvetica">
+          <button onclick="scrollToSection('hero')" id="nav-hero" class="nav-link transition-colors duration-200 text-white font-semibold text-shadow-sm hover:text-white">Home</button>
+          <button onclick="scrollToSection('about')" id="nav-about" class="nav-link transition-colors duration-200 hover:text-white text-shadow-sm">About Us</button>
+          <button onclick="scrollToSection('patron')" id="nav-patron" class="nav-link transition-colors duration-200 hover:text-white text-shadow-sm">Patron & Sacramentals</button>
+          <button onclick="scrollToSection('prayer-cards')" id="nav-prayer-cards" class="nav-link transition-colors duration-200 hover:text-white text-shadow-sm">Prayer Cards</button>
+          <button onclick="scrollToSection('chaplet')" id="nav-chaplet" class="nav-link transition-colors duration-200 hover:text-white text-shadow-sm">Interactive Chaplet</button>
+          <button onclick="scrollToSection('join')" id="nav-join" class="nav-link transition-colors duration-200 hover:text-white text-shadow-sm">Membership</button>
+        </nav>
+
+        <!-- Action Buttons -->
+        <div class="hidden sm:flex items-center gap-3 font-helvetica">
+          <button onclick="scrollToSection('prayer-cards')" class="flex items-center gap-1.5 px-4 py-2 rounded-full backdrop-blur-sm bg-black/30 border border-white/25 text-white text-xs sm:text-sm font-medium hover:bg-white/20 transition-all shadow-md cursor-pointer text-shadow-sm">
+            <svg class="w-4 h-4 text-amber-300" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8.5 14.5A3.5 3.5 0 0 0 12 18a3.5 3.5 0 0 0 3.5-3.5c0-1.5-1.5-3.5-3.5-5.5-2 2-3.5 4-3.5 5.5Z" />
+              <path d="M12 2c-4 4.5-8 9-8 13.5a8 8 0 0 0 16 0C20 11 16 6.5 12 2Z" fill="none" stroke="currentColor" stroke-width="2" />
+            </svg>
+            <span>Light a Candle</span>
+          </button>
+          <button onclick="openInquiryModal()" class="flex items-center gap-2 px-5 py-2 rounded-full bg-white text-black text-xs sm:text-sm font-semibold hover:bg-white/90 active:scale-95 transition-all shadow-lg cursor-pointer">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <line x1="19" y1="8" x2="19" y2="14" />
+              <line x1="22" y1="11" x2="16" y2="11" />
+            </svg>
+            <span>Inquire About Membership</span>
+          </button>
+        </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl bg-black/40 border border-white/20 text-white" aria-label="Toggle Navigation">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="6" x2="20" y2="6" />
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <line x1="4" y1="18" x2="20" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mobile Drawer Menu -->
+      <div id="mobile-menu" class="hidden lg:hidden mt-3 pt-3 border-t border-white/10 flex-col gap-2.5 pb-2 bg-black/80 backdrop-blur-md rounded-2xl p-4">
+        <button onclick="scrollToSection('hero'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg text-sm text-white/80 hover:bg-white/10 hover:text-white">Home</button>
+        <button onclick="scrollToSection('about'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg text-sm text-white/80 hover:bg-white/10 hover:text-white">About Us</button>
+        <button onclick="scrollToSection('patron'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg text-sm text-white/80 hover:bg-white/10 hover:text-white">Patron & Sacramentals</button>
+        <button onclick="scrollToSection('prayer-cards'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg text-sm text-white/80 hover:bg-white/10 hover:text-white">Prayer Cards</button>
+        <button onclick="scrollToSection('chaplet'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg text-sm text-white/80 hover:bg-white/10 hover:text-white">Interactive Chaplet</button>
+        <button onclick="scrollToSection('join'); toggleMobileMenu()" class="text-left px-3 py-2 rounded-lg text-sm text-white/80 hover:bg-white/10 hover:text-white">Membership</button>
+        <div class="flex gap-2 pt-2 border-t border-white/10">
+          <button onclick="scrollToSection('prayer-cards'); toggleMobileMenu()" class="flex-1 py-2 rounded-full bg-white/10 border border-white/20 text-xs font-medium text-center text-white">Light a Candle</button>
+          <button onclick="openInquiryModal(); toggleMobileMenu()" class="flex-1 py-2 rounded-full bg-white text-black text-xs font-semibold text-center">Inquire</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT SECTIONS -->
+    <main class="flex-1 w-full flex flex-col items-center px-4 sm:px-8 py-8 md:py-12 space-y-24 md:space-y-36">
+
+      <!-- SECTION 1: HERO BANNER (100% Transparent so the painting animation is completely visible!) -->
+      <section id="hero" class="w-full flex flex-col items-center select-none font-helvetica">
+        <div class="w-full max-w-[1360px] relative">
+          <!-- Transparent First Panel with subtle border outline only -->
+          <div class="relative w-full min-h-[700px] md:min-h-[780px] bg-transparent rounded-[38px] md:rounded-[48px] border-[1.5px] border-white/20 overflow-hidden flex flex-col justify-between p-6 sm:p-10 md:p-12">
+            
+            <!-- Top Banner Header: Latin Motto & Pill -->
+            <div class="relative z-30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/15 pb-4">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-black/30 backdrop-blur-sm border border-white/25 flex items-center justify-center shadow-inner">
+                  <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="2" x2="12" y2="22" />
+                    <line x1="5" y1="8" x2="19" y2="8" />
+                  </svg>
+                </div>
+                <div>
+                  <span class="text-xs md:text-sm font-semibold tracking-wider text-white uppercase italic font-serif-garamond text-shadow-md">
+                    Ducere et Docere Populum Iesum
+                  </span>
+                  <span class="text-xs text-white/80 block font-helvetica text-shadow-sm">
+                    To Lead and Educate People to Jesus
+                  </span>
+                </div>
+              </div>
+
+              <!-- Motto Badge -->
+              <div class="flex items-center gap-2 px-4 py-1.5 rounded-full backdrop-blur-sm bg-black/30 border border-white/25 shadow-sm text-xs font-medium text-white/95 text-shadow-sm">
+                <span class="text-white font-semibold">Sacrifice</span>
+                <span class="text-white/40">•</span>
+                <span class="text-white font-semibold">Eucharist</span>
+                <span class="text-white/40">•</span>
+                <span class="text-white font-semibold">Apostolate</span>
+              </div>
+            </div>
+
+            <!-- Sacred Centerpiece: AYPM Logo & Sermon on the Mount Quote -->
+            <div class="relative z-20 w-full flex flex-col items-center justify-center my-6 md:my-10 px-2 sm:px-6 text-center">
+              <div class="mb-5 flex flex-col items-center">
+                <img src="aypm-logo.png" alt="Apostle of the Youth Prayer Movement Official Logo" class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-contain drop-shadow-[0_8px_30px_rgba(255,255,255,0.3)] transition-transform hover:scale-105 duration-300" />
+                <span class="text-xs sm:text-sm font-semibold uppercase tracking-[0.22em] text-white/80 mt-2.5 font-helvetica text-shadow-sm">Apostle of the Youth Prayer Movement</span>
+              </div>
+
+              <div class="max-w-4xl mx-auto px-6 sm:px-10 py-7 rounded-[32px] bg-black/25 backdrop-blur-[3px] border border-white/20 shadow-2xl">
+                <blockquote class="font-serif-garamond text-xl sm:text-2xl md:text-3xl lg:text-[2.1rem] text-white italic leading-relaxed md:leading-[1.45] text-shadow-lg">
+                  “You are the light of the world. A town built on a hill cannot be hidden. <sup class="text-white/60 text-xs sm:text-sm font-normal not-italic">15</sup> Neither do people light a lamp and put it under a bowl. Instead they put it on its stand, and it gives light to everyone in the house. <sup class="text-white/60 text-xs sm:text-sm font-normal not-italic">16</sup> In the same way, let your light shine before others, that they may see your good deeds and glorify your Father in heaven.”
+                </blockquote>
+                <div class="mt-4 flex items-center justify-center gap-3">
+                  <span class="w-8 h-px bg-white/40"></span>
+                  <cite class="text-xs sm:text-sm font-semibold tracking-widest uppercase text-white/90 not-italic font-helvetica text-shadow-sm">The Sermon on the Mount · Matthew 5:14–16</cite>
+                  <span class="w-8 h-px bg-white/40"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lower Hero Content Grid -->
+            <div class="relative z-30 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end pt-6 border-t border-white/10">
+              <!-- Left Column: Headline & Action Buttons -->
+              <div class="lg:col-span-7 flex flex-col justify-end">
+                <div class="inline-flex items-center gap-2 text-xs sm:text-sm uppercase tracking-widest text-white/85 mb-2.5 font-helvetica text-shadow-sm">
+                  <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+                    <path d="m9 12 2 2 4-4" />
+                  </svg>
+                  <span>Blessed Ivan Merz Family · Diocese of Banja Luka</span>
+                </div>
+
+                <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-semibold text-white tracking-tight leading-[1.1] mb-4 font-serif-garamond text-shadow-lg">
+                  Apostle of the Youth<br />Prayer Movement
+                </h2>
+
+                <p class="text-sm sm:text-base md:text-lg text-white/95 max-w-[560px] leading-relaxed font-normal mb-6 font-helvetica text-shadow-md">
+                  Welcome to the Official Website of the Apostle of the Youth Prayer Movement (AYPM) — a spiritual initiative of the Blessed Ivan Merz Family, under the heavenly patronage of the Sacred Heart of Jesus and the Immaculate Heart of Mary.
+                </p>
+
+                <div class="flex flex-wrap items-center gap-3">
+                  <button onclick="scrollToSection('about')" class="px-6 py-3 rounded-full text-xs sm:text-sm md:text-base font-semibold tracking-wide bg-white text-black hover:bg-white/90 active:scale-95 transition-all shadow-[0_8px_30px_rgba(255,255,255,0.22)] cursor-pointer flex items-center gap-2 font-helvetica">
+                    <span>Discover Our Legacy</span>
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </button>
+                  <button onclick="openInquiryModal()" class="px-6 py-3 rounded-full text-xs sm:text-sm md:text-base font-semibold tracking-wide backdrop-blur-sm bg-black/40 border border-white/30 text-white hover:bg-white/20 active:scale-95 transition-all shadow-md cursor-pointer flex items-center gap-2 font-helvetica text-shadow-sm">
+                    <span>Inquire About Membership</span>
+                  </button>
+                  <button onclick="scrollToSection('chaplet')" class="px-5 py-3 rounded-full text-xs sm:text-sm md:text-base font-medium tracking-wide backdrop-blur-sm bg-black/30 border border-white/20 text-white/90 hover:text-white hover:bg-white/10 active:scale-95 transition-all cursor-pointer flex items-center gap-2 font-helvetica text-shadow-sm">
+                    <svg class="w-4 h-4 text-white/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><line x1="5" y1="8" x2="19" y2="8"/></svg>
+                    <span>Pray 32 Glory Be Chaplet</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Right Column: 3 Pillars Cards (Light translucent glass) -->
+              <div class="lg:col-span-5 flex flex-col items-start lg:items-end gap-3.5 w-full">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full">
+                  <div class="p-5 rounded-3xl backdrop-blur-sm bg-black/25 border border-white/20 shadow-lg">
+                    <div class="flex items-center gap-2 mb-2">
+                      <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><line x1="5" y1="8" x2="19" y2="8"/></svg>
+                      <span class="text-lg font-bold text-white font-serif-garamond tracking-wide text-shadow-sm">Sacrifice</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-white/90 font-normal leading-relaxed text-shadow-sm">
+                      Embracing daily self-offering in union with Christ's Cross to build apostles for Church & world.
+                    </p>
+                  </div>
+
+                  <div class="p-5 rounded-3xl backdrop-blur-sm bg-black/25 border border-white/20 shadow-lg">
+                    <div class="flex items-center gap-2 mb-2">
+                      <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+                      <span class="text-lg font-bold text-white font-serif-garamond tracking-wide text-shadow-sm">Eucharist</span>
+                    </div>
+                    <p class="text-xs sm:text-sm text-white/90 font-normal leading-relaxed text-shadow-sm">
+                      Drawing entire strength for holiness & apostolic work from daily Holy Communion and Adoration.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="w-full p-5 rounded-3xl backdrop-blur-sm bg-black/25 border border-white/20 shadow-lg">
+                  <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                      <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 14.5A3.5 3.5 0 0 0 12 18a3.5 3.5 0 0 0 3.5-3.5c0-1.5-1.5-3.5-3.5-5.5-2 2-3.5 4-3.5 5.5Z"/><path d="M12 2c-4 4.5-8 9-8 13.5a8 8 0 0 0 16 0C20 11 16 6.5 12 2Z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                      <span class="text-lg font-bold text-white font-serif-garamond tracking-wide text-shadow-sm">Apostolate</span>
+                    </div>
+                    <span class="text-xs text-white/70 uppercase tracking-widest text-shadow-sm">Living Witness</span>
+                  </div>
+                  <p class="text-xs sm:text-sm text-white/90 font-normal leading-relaxed text-shadow-sm">
+                    Letting prayer overflow into mission—witnessing Christ in schools, workplaces, and defending the faith with courage.
+                  </p>
+                </div>
+
+                <div class="w-full flex items-center justify-between py-2.5 px-5 rounded-full backdrop-blur-sm bg-black/30 border border-white/20 shadow-md text-xs sm:text-sm text-white/90 text-shadow-sm">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                    <span class="font-semibold text-white">Blessed Ivan Merz Family</span>
+                    <span class="text-white/40">·</span>
+                    <span>Croatian Catholic Eagles 1923</span>
+                  </div>
+                  <span class="text-white/70 hidden sm:inline text-xs">Banja Luka · Zagreb</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: ABOUT US (Light Translucent Panels) -->
+      <section id="about" class="w-full max-w-[1360px] py-16 font-helvetica select-none">
+        <div class="flex flex-col items-center text-center mb-12">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-xs sm:text-sm text-white/90 uppercase tracking-widest mb-3 text-shadow-sm">
+            <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+            <span>Heritage, Motto & Vision</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-tight font-serif-garamond text-shadow-lg">
+            About the Movement
+          </h2>
+          <p class="text-base sm:text-lg text-white/90 max-w-[680px] mt-2 leading-relaxed text-shadow-sm">
+            Not a new invention, but a historical revival of the apostolic flame begun in 1923 by Blessed Ivan Merz, uniting young souls in Eucharistic holiness.
+          </p>
+        </div>
+
+        <!-- Heritage Card (Light Glass) -->
+        <div class="w-full mb-12">
+          <div class="p-8 sm:p-12 rounded-[36px] bg-black/25 backdrop-blur-sm border border-white/20 shadow-xl flex flex-col justify-between">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center">
+                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <div>
+                <span class="text-xs text-white/70 uppercase tracking-widest block text-shadow-sm">1923 Zagreb Heritage</span>
+                <h3 class="text-2xl sm:text-3xl font-bold text-white font-serif-garamond text-shadow-md">Croatian Catholic Eagles Revival</h3>
+              </div>
+            </div>
+            <p class="text-base sm:text-lg text-white/95 leading-relaxed mb-4 text-shadow-sm">
+              The AYPM traces its spiritual lineage to the Croatian Catholic Eagles of 1923 (<span class="italic font-serif-garamond text-white">Hrvatski Orlovski Savez</span>), championed by Blessed Ivan Merz—a lay apostle whom Pope John Paul II beatified and whom Cardinal Franjo Kuharić rightly called <span class="text-white font-medium">"a masterpiece of the Holy Spirit."</span>
+            </p>
+            <p class="text-sm sm:text-base text-white/85 leading-relaxed text-shadow-sm">
+              We unite young people worldwide into a spiritual family centered on prayer, the Holy Eucharist, and the sanctification of everyday life in the world, under the heavenly patronage of the Sacred Heart of Jesus and the Immaculate Heart of Mary.
+            </p>
+          </div>
+        </div>
+
+        <!-- Core Motto Grid: Sacrifice, Eucharist, Apostolate (Light Glass) -->
+        <div class="mb-14">
+          <div class="text-center mb-8">
+            <div class="text-xs sm:text-sm uppercase tracking-widest text-white/70 mb-1.5 text-shadow-sm">Our Foundation & Rule of Life</div>
+            <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white font-serif-garamond text-shadow-md">
+              The Core Motto: Sacrifice • Eucharist • Apostolate
+            </h3>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="p-8 rounded-[32px] bg-black/20 backdrop-blur-sm border border-white/20 shadow-lg flex flex-col justify-between">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><line x1="5" y1="8" x2="19" y2="8"/></svg>
+                </div>
+                <h4 class="text-2xl font-bold text-white font-serif-garamond mb-2.5 text-shadow-sm">Sacrifice</h4>
+                <p class="text-sm sm:text-base text-white/90 leading-relaxed text-shadow-sm">
+                  Embracing daily self-offering in union with Christ's Cross to build apostles for the Church and the world. Through penance, mortification, and the offering of illness and trials, members sanctify their daily duties.
+                </p>
+              </div>
+              <div class="mt-6 pt-3 border-t border-white/10 text-xs sm:text-sm text-white/70 italic font-serif-garamond text-shadow-sm">
+                "Suffering sanctifies the soul." — Bl. Ivan Merz
+              </div>
+            </div>
+
+            <div class="p-8 rounded-[32px] bg-black/20 backdrop-blur-sm border border-white/20 shadow-lg flex flex-col justify-between">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+                </div>
+                <h4 class="text-2xl font-bold text-white font-serif-garamond mb-2.5 text-shadow-sm">Eucharist</h4>
+                <p class="text-sm sm:text-base text-white/90 leading-relaxed text-shadow-sm">
+                  Drawing our entire strength for holiness and apostolic work from daily Holy Communion and Eucharistic Adoration. The Eucharist is the vital heart of the youth movement and the source of interior purity.
+                </p>
+              </div>
+              <div class="mt-6 pt-3 border-t border-white/10 text-xs sm:text-sm text-white/70 italic font-serif-garamond text-shadow-sm">
+                "The Holy Eucharist is the sun of my life."
+              </div>
+            </div>
+
+            <div class="p-8 rounded-[32px] bg-black/20 backdrop-blur-sm border border-white/20 shadow-lg flex flex-col justify-between">
+              <div>
+                <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center mb-4">
+                  <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 14.5A3.5 3.5 0 0 0 12 18a3.5 3.5 0 0 0 3.5-3.5c0-1.5-1.5-3.5-3.5-5.5-2 2-3.5 4-3.5 5.5Z"/><path d="M12 2c-4 4.5-8 9-8 13.5a8 8 0 0 0 16 0C20 11 16 6.5 12 2Z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                </div>
+                <h4 class="text-2xl font-bold text-white font-serif-garamond mb-2.5 text-shadow-sm">Apostolate</h4>
+                <p class="text-sm sm:text-base text-white/90 leading-relaxed text-shadow-sm">
+                  Letting prayer overflow into mission—witnessing Christ in schools, workplaces, and society, defending the Catholic faith and papal teachings with unyielding courage and intellectual rigor.
+                </p>
+              </div>
+              <div class="mt-6 pt-3 border-t border-white/10 text-xs sm:text-sm text-white/70 italic font-serif-garamond text-shadow-sm">
+                "Catholic faith is my life vocation."
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vision: 3 Fundamental Concepts (Light Glass) -->
+        <div class="p-8 sm:p-12 rounded-[40px] bg-black/25 backdrop-blur-sm border border-white/20 shadow-xl">
+          <div class="max-w-4xl mx-auto text-center mb-10">
+            <span class="text-xs sm:text-sm uppercase tracking-widest text-white/70 block mb-2 text-shadow-sm">The Fundamental Vision</span>
+            <h3 class="text-2xl sm:text-4xl font-semibold text-white font-serif-garamond mb-4 text-shadow-md">Catholics Who Strive for Sanctity</h3>
+            <p class="text-sm sm:text-base md:text-lg text-white/95 leading-relaxed italic font-serif-garamond text-shadow-sm">
+              "The Apostle of the Youth Prayer Movement (AYPM) envisions itself as a global family of Catholic faithful, especially young people, who seek to live holiness in the ordinary circumstances of daily life. Following the model of Blessed Ivan Merz, members are inspired to echo his conviction that the ultimate vocation of every Christian is no less than sanctity."
+            </p>
+          </div>
+          <div class="space-y-6">
+            <div class="p-7 rounded-3xl bg-black/20 border border-white/15">
+              <div class="flex items-center gap-2 mb-2.5">
+                <span class="w-3 h-3 rounded-full bg-white"></span>
+                <h4 class="text-lg sm:text-xl font-bold text-white font-serif-garamond tracking-wide uppercase text-shadow-sm">First, Catholics Who Put Order to Prayer</h4>
+              </div>
+              <p class="text-sm sm:text-base text-white/90 leading-relaxed pl-4 border-l-2 border-white/30 text-shadow-sm">
+                AYPM members are those who recognize prayer as the foundation of Christian life and strive to give it structure and priority. They faithfully recite the Prayer for the Canonization of Blessed Ivan Merz, regularly participate in the sacramental life of the Church, especially the Eucharist.
+              </p>
+            </div>
+            <div class="p-7 rounded-3xl bg-black/20 border border-white/15">
+              <div class="flex items-center gap-2 mb-2.5">
+                <span class="w-3 h-3 rounded-full bg-white"></span>
+                <h4 class="text-lg sm:text-xl font-bold text-white font-serif-garamond tracking-wide uppercase text-shadow-sm">Second, Catholics Who Take Prayer Seriously</h4>
+              </div>
+              <p class="text-sm sm:text-base text-white/90 leading-relaxed pl-4 border-l-2 border-white/30 text-shadow-sm">
+                Prayer is not a formality but an encounter with God that shapes the heart. Inspired by Blessed Ivan’s words: <span class="text-white italic">“Never forget God! Always desire to be united with Him”</span>, AYPM members are those who dedicate themselves to a deeper spiritual life through study of Ivan’s writings and the teachings of the Church, using sacramentals such as the Chaplet of Blessed Ivan Merz as reminders of prayerful discipline, and pursuing ongoing formation.
+              </p>
+            </div>
+            <div class="p-7 rounded-3xl bg-black/20 border border-white/15">
+              <div class="flex items-center gap-2 mb-2.5">
+                <span class="w-3 h-3 rounded-full bg-white"></span>
+                <h4 class="text-lg sm:text-xl font-bold text-white font-serif-garamond tracking-wide uppercase text-shadow-sm">Third, Catholics Who Witness to Christ Through Prayer</h4>
+              </div>
+              <p class="text-sm sm:text-base text-white/90 leading-relaxed pl-4 border-l-2 border-white/30 text-shadow-sm">
+                Prayer naturally manifests in mission. For AYPM members, prayer becomes a witness when it inspires a credible testimony of life. Members share prayer cards, relics, and devotional materials as tools of evangelization, engage in works of sanctification and charity together with the Blessed Ivan Merz Family, and are living witnesses of Christ in schools, parishes, and workplaces.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: PATRON & SACRAMENTALS (Light Translucent Panels) -->
+      <section id="patron" class="w-full max-w-[1360px] py-16 font-helvetica select-none">
+        <div class="flex flex-col items-center text-center mb-12">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-xs sm:text-sm text-white/90 uppercase tracking-widest mb-3 text-shadow-sm">
+            <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>
+            <span>Patron & Sacramentals</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-tight font-serif-garamond text-shadow-lg">
+            Blessed Ivan Merz (1896–1928)
+          </h2>
+          <p class="text-base sm:text-lg text-white/90 max-w-[680px] mt-2 leading-relaxed text-shadow-sm">
+            "A masterpiece of the Holy Spirit" — Soldier, literary scholar, professor, and lay apostle who offered his life for the sanctification of youth.
+          </p>
+        </div>
+
+        <!-- Main Patron Profile Card with Uploaded Portrait -->
+        <div class="p-8 sm:p-12 rounded-[40px] bg-black/25 backdrop-blur-sm border border-white/20 shadow-xl mb-12">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-5 flex flex-col items-center text-center">
+              <div class="relative w-52 h-52 sm:w-64 sm:h-64 rounded-full p-1.5 bg-gradient-to-b from-white/40 via-white/10 to-transparent shadow-[0_0_50px_rgba(255,255,255,0.18)] mb-6">
+                <div class="w-full h-full rounded-full overflow-hidden bg-black/40 backdrop-blur-sm border-2 border-white/35 flex items-center justify-center relative shadow-inner">
+                  <img src="ivan-merz.png" alt="Blessed Ivan Merz" class="w-full h-full object-cover object-top filter brightness-95 contrast-105" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+                  <div class="absolute bottom-3 text-center w-full">
+                    <span class="text-xs tracking-widest uppercase font-semibold text-white text-shadow-md">Banja Luka · 1896–1928</span>
+                  </div>
+                </div>
+              </div>
+              <div class="text-2xl sm:text-3xl font-serif-garamond text-white italic max-w-[340px] leading-snug text-shadow-md">
+                "Catholic faith is my life vocation."
+              </div>
+              <div class="text-xs sm:text-sm text-white/70 tracking-widest uppercase mt-2 text-shadow-sm">
+                — Blessed Ivan Merz
+              </div>
+            </div>
+
+            <div class="lg:col-span-7 space-y-5">
+              <div class="inline-block px-4 py-1.5 rounded-full bg-white/15 text-xs sm:text-sm text-white font-medium mb-1 text-shadow-sm">
+                Beatified by Pope John Paul II in Banja Luka (2003)
+              </div>
+              <h3 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-white font-serif-garamond text-shadow-md">
+                A Lay Masterpiece for the Universal Church
+              </h3>
+              <p class="text-sm sm:text-base md:text-lg text-white/95 leading-relaxed text-shadow-sm">
+                Born in Banja Luka, Bosnia, Ivan lived as an artillery officer during World War I, a brilliant Paris-educated academic, literary scholar, and professor. He anchored his entire existence on the divine liturgy, daily communion, and absolute fidelity to the Holy Father in Rome.
+              </p>
+              <p class="text-sm sm:text-base text-white/90 leading-relaxed text-shadow-sm">
+                At age 27, he made a private vow of perpetual chastity and systematically offered his physical sufferings and early death at age 32 for the youth of Croatia and the Catholic Church.
+              </p>
+              <div class="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="p-5 rounded-2xl bg-black/20 border border-white/15">
+                  <span class="text-sm font-semibold text-white block mb-1 text-shadow-sm">Feast Day: May 10</span>
+                  <span class="text-xs sm:text-sm text-white/80 leading-relaxed">
+                    Celebrated globally, honoring his cause for canonization and patronage of students, scholars, and youth.
+                  </span>
+                </div>
+                <div class="p-5 rounded-2xl bg-black/20 border border-white/15">
+                  <span class="text-sm font-semibold text-white block mb-1 text-shadow-sm">Sacred Heart & Mary</span>
+                  <span class="text-xs sm:text-sm text-white/80 leading-relaxed">
+                    Unwavering consecration to the Sacred Heart of Jesus and the triumph of the Immaculate Heart of Mary.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 Sacramentals Cards (Light Glass) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-8 sm:p-10 rounded-[36px] bg-black/20 backdrop-blur-sm border border-white/20 shadow-lg flex flex-col justify-between hover:border-white/40 transition-all duration-300">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center mb-4">
+                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+              </div>
+              <h4 class="text-2xl font-bold text-white font-serif-garamond mb-2.5 text-shadow-sm">The Chaplet of Blessed Ivan Merz</h4>
+              <p class="text-sm sm:text-base text-white/90 leading-relaxed mb-4 text-shadow-sm">
+                Composed of preliminary prayers (Our Father, Hail Mary, and The Apostle's Creed) followed by <strong class="text-white">32 Glory Be’s</strong> in thanksgiving for the 32 years of his earthly life, linking our prayer life to his intercession.
+              </p>
+            </div>
+            <div>
+              <button onclick="scrollToSection('chaplet')" class="w-full py-3.5 rounded-full bg-white/15 border border-white/25 text-xs sm:text-sm text-white font-semibold hover:bg-white hover:text-black transition-all text-center cursor-pointer text-shadow-sm">
+                Open Interactive Chaplet
+              </button>
+              <div class="pt-3 border-t border-white/10 text-xs text-white/60 mt-3 text-shadow-sm">
+                Recited daily in spiritual union worldwide
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8 sm:p-10 rounded-[36px] bg-black/20 backdrop-blur-sm border border-white/20 shadow-lg flex flex-col justify-between hover:border-white/40 transition-all duration-300">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center mb-4 p-2">
+                <img src="aypm-logo.png" alt="AYPM Cross & Emblem" class="w-full h-full object-contain" />
+              </div>
+              <h4 class="text-2xl font-bold text-white font-serif-garamond mb-2.5 text-shadow-sm">The AYPM Cross & Emblem</h4>
+              <p class="text-sm sm:text-base text-white/90 leading-relaxed mb-4 text-shadow-sm">
+                Symbols of fearless witness, reminding members that they must stand like rocks in defense of the Catholic faith and papal authority in the public square.
+              </p>
+              <div class="p-4 rounded-2xl bg-black/20 text-sm text-white/95 italic font-serif-garamond text-shadow-sm">
+                "Plamen za visinama" — A flame for the heights, rising like eagles above earthly vanity.
+              </div>
+            </div>
+            <div class="pt-3 border-t border-white/10 text-xs text-white/60 text-shadow-sm">
+              Insignia carried by AYPM members and chapters
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: PRAYER CARDS & VOTIVE CANDLE ALTAR (Light Glass) -->
+      <section id="prayer-cards" class="w-full max-w-[1360px] py-16 font-helvetica select-none">
+        <div class="flex flex-col items-center text-center mb-10">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-xs sm:text-sm text-white/90 uppercase tracking-widest mb-3 text-shadow-sm">
+            <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10"/><path d="M6 10h10"/></svg>
+            <span>Devotional Cards & Virtual Votive Altar</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-tight font-serif-garamond text-shadow-lg">
+            Prayer Cards
+          </h2>
+          <p class="text-base sm:text-lg text-white/90 max-w-[650px] mt-2 leading-relaxed text-shadow-sm">
+            Sacred prayer cards of Blessed Ivan Merz and the historic <span class="italic font-serif-garamond text-white">Christus Vincit</span> acclamation.
+          </p>
+        </div>
+
+        <!-- 2 Prayer Cards (Very light glass) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-4">
+          <!-- Card 1: Blessed Ivan Merz -->
+          <div class="p-8 sm:p-10 rounded-[38px] bg-black/20 backdrop-blur-sm border border-white/20 hover:border-white/45 transition-all duration-300 flex flex-col justify-between shadow-xl">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-4 text-xs uppercase tracking-widest text-white/70 text-shadow-sm">
+                <span>Intercession & Canonization</span>
+                <svg class="w-4 h-4 text-white/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-bold text-white font-serif-garamond mb-1.5 text-shadow-md">
+                Prayer to Blessed Ivan Merz
+              </h3>
+              <div class="text-xs sm:text-sm text-white/75 mb-4 text-shadow-sm">Official Novena & Petition for Canonization</div>
+              <div class="p-3.5 rounded-2xl bg-black/20 border border-white/15 mb-5 text-xs sm:text-sm italic font-serif-garamond text-white/95 text-shadow-sm">
+                "Beatus Ioannes Merz, Magisterium Spiritus Sancti"
+              </div>
+              <p class="text-base sm:text-lg text-white/95 leading-relaxed font-serif-garamond italic mb-5 text-shadow-sm">
+                "Loving and Merciful God, you chose your servant Blessed Ivan Merz to be one of our intercessors in heaven. His life of total dedication to you through chastity, service to the Church, education and formation of the youth, promotion of liturgical renewal and love and fidelity to the Pope are truly inspiring. May he imbue and help me to be a saint. Through Blessed Ivan’s intercession grant me the favor I request (here make your petition), and in your mercy deign to grant us his canonization. We ask this through our Lord Jesus Christ, your Son, who lives and reigns with you and the Holy Spirit, one God, for ever and ever. Amen."
+              </p>
+              <div class="p-3.5 rounded-xl bg-black/20 border border-white/20 text-xs sm:text-sm font-semibold text-white mb-4 text-shadow-sm">
+                Our Father, Hail Mary, Glory be (3x)
+              </div>
+              <div class="pl-3 border-l-2 border-white/40 text-xs sm:text-sm text-white/85 text-shadow-sm">
+                Blessed Ivan Merz, pray for us and for the youth!
+              </div>
+            </div>
+            <div class="mt-8 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+              <span id="count-ivan" class="text-xs sm:text-sm text-white/70 text-shadow-sm">4,890 Faithful Prayed</span>
+              <button onclick="handlePrayCard('ivan', 'Prayer to Blessed Ivan Merz')" class="px-6 py-2.5 rounded-full bg-white text-black text-xs sm:text-sm font-semibold hover:bg-white/90 active:scale-95 transition shadow-lg cursor-pointer flex items-center gap-2">
+                <svg class="w-4 h-4 fill-current text-black" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                <span>I Prayed</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 2: Christus Vincit -->
+          <div class="p-8 sm:p-10 rounded-[38px] bg-black/20 backdrop-blur-sm border border-white/20 hover:border-white/45 transition-all duration-300 flex flex-col justify-between shadow-xl">
+            <div>
+              <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-4 text-xs uppercase tracking-widest text-white/70 text-shadow-sm">
+                <span>Solemn Acclamation</span>
+                <svg class="w-4 h-4 text-white/80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-bold text-white font-serif-garamond mb-1.5 text-shadow-md">
+                Christus Vincit! Christus Regnat!
+              </h3>
+              <div class="text-xs sm:text-sm text-white/75 mb-4 text-shadow-sm">The Royal Eagle Acclamation of 1923</div>
+              <div class="p-3.5 rounded-2xl bg-black/20 border border-white/15 mb-5 text-xs sm:text-sm italic font-serif-garamond text-white/95 text-shadow-sm">
+                "Christus vincit, Christus regnat, Christus imperat!"
+              </div>
+              <p class="text-base sm:text-lg text-white/95 leading-relaxed font-serif-garamond italic mb-5 text-shadow-sm">
+                "Christus vincit! Christus regnat! Christus imperat! Exaudi, Christe: Domino Nostro Papae, vita! Christ conquers! Christ reigns! Christ commands! Lord Jesus, Sovereign King of all hearts and nations, keep our youth faithful to the Holy Catholic Church and obedient to the Vicar of Christ until death. Amen."
+              </p>
+              <div class="p-3.5 rounded-xl bg-black/20 border border-white/20 text-xs sm:text-sm font-semibold text-white mb-4 text-shadow-sm">
+                Adveniat Regnum Tuum! (Thy Kingdom Come!)
+              </div>
+              <div class="pl-3 border-l-2 border-white/40 text-xs sm:text-sm text-white/85 text-shadow-sm">
+                To Christ the King, glory, love, and victory forever!
+              </div>
+            </div>
+            <div class="mt-8 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+              <span id="count-christus" class="text-xs sm:text-sm text-white/70 text-shadow-sm">3,740 Faithful Prayed</span>
+              <button onclick="handlePrayCard('christus', 'Christus Vincit! Christus Regnat!')" class="px-6 py-2.5 rounded-full bg-white text-black text-xs sm:text-sm font-semibold hover:bg-white/90 active:scale-95 transition shadow-lg cursor-pointer flex items-center gap-2">
+                <svg class="w-4 h-4 fill-current text-black" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                <span>I Prayed</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. ANIMATED CANDLE VOTIVE CHAPEL (Light Glass) -->
+        <div class="mt-12 p-8 sm:p-12 rounded-[44px] bg-black/25 backdrop-blur-sm border border-white/20 shadow-xl relative overflow-hidden">
+          <div id="candle-halo" class="absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[320px] bg-white/[0.04] blur-[120px] rounded-full pointer-events-none transition-all duration-1000"></div>
+
+          <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <!-- Left: Animated Votive Candle Assembly -->
+            <div class="lg:col-span-5 flex flex-col items-center text-center">
+              <div class="relative w-44 h-64 sm:w-52 sm:h-72 flex flex-col items-center justify-end pb-4">
+                <div class="absolute top-2 w-full flex justify-center pointer-events-none">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-300 animate-[floatingEmber_3s_ease-in-out_infinite]"></span>
+                  <span class="w-1 h-1 rounded-full bg-yellow-200 animate-[floatingEmber_2.4s_ease-in-out_infinite_0.8s] ml-4"></span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-[floatingEmber_3.6s_ease-in-out_infinite_1.6s] -ml-6"></span>
+                </div>
+
+                <!-- Flame SVG with Realistic Gradients -->
+                <div class="relative mb-1 flex flex-col items-center">
+                  <div class="absolute -inset-8 bg-gradient-to-t from-amber-500/40 via-yellow-400/20 to-transparent blur-2xl rounded-full pointer-events-none"></div>
+                  <svg width="48" height="72" viewBox="0 0 48 72" fill="none" class="candle-flame-animated overflow-visible">
+                    <path d="M24 2C24 2 42 28 42 46C42 58 34 68 24 68C14 68 6 58 6 46C6 28 24 2 24 2Z" fill="url(#outerFlameGradient)" opacity="0.95" />
+                    <path d="M24 16C24 16 35 34 35 48C35 56 30 63 24 63C18 63 13 56 13 48C13 34 24 16 24 16Z" fill="url(#midFlameGradient)" class="candle-inner-flame-animated" />
+                    <path d="M24 28C24 28 30 40 30 50C30 55 27.5 59 24 59C20.5 59 18 55 18 50C18 40 24 28 24 28Z" fill="#ffffff" opacity="0.9" />
+                    <ellipse cx="24" cy="62" rx="6" ry="3" fill="#60a5fa" opacity="0.65" />
+                    <defs>
+                      <linearGradient id="outerFlameGradient" x1="24" y1="2" x2="24" y2="68" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#ffffff" stop-opacity="0.9" />
+                        <stop offset="0.25" stop-color="#fef08a" />
+                        <stop offset="0.6" stop-color="#f59e0b" />
+                        <stop offset="0.9" stop-color="#d97706" />
+                        <stop offset="1" stop-color="#78350f" stop-opacity="0.8" />
+                      </linearGradient>
+                      <linearGradient id="midFlameGradient" x1="24" y1="16" x2="24" y2="63" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#ffffff" />
+                        <stop offset="0.4" stop-color="#fef9c3" />
+                        <stop offset="0.8" stop-color="#fbbf24" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                  <div class="w-1 h-3.5 bg-gradient-to-b from-white/90 via-amber-700 to-black mx-auto rounded-full"></div>
+                </div>
+
+                <!-- Frosted Glass Votive Glass Cup -->
+                <div class="relative w-28 sm:w-32 h-32 sm:h-36 rounded-2xl backdrop-blur-sm bg-black/30 border border-white/30 flex flex-col items-center justify-between p-3.5 shadow-xl">
+                  <div class="w-full h-1 bg-gradient-to-r from-transparent via-white/40 to-transparent rounded-full"></div>
+                  <div class="flex flex-col items-center">
+                    <svg class="w-5 h-5 text-white/70 mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span class="text-xs text-white/90 font-serif-garamond italic text-shadow-sm">Sanctum Votum</span>
+                    <span class="text-[10px] uppercase tracking-widest text-white/60 font-helvetica mt-0.5">AYPM</span>
+                  </div>
+                  <div class="w-16 h-2 bg-amber-400/20 blur-sm rounded-full"></div>
+                </div>
+              </div>
+              <div class="text-xs uppercase tracking-widest text-white/70 mt-3 text-shadow-sm">Blessed Ivan Merz Sanctuary</div>
+            </div>
+
+            <!-- Right: Counter & Lighting Action -->
+            <div class="lg:col-span-7 space-y-4">
+              <span class="inline-block px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-xs sm:text-sm text-white/90 uppercase tracking-widest text-shadow-sm">
+                Communion of Prayer
+              </span>
+              <div>
+                <div id="candle-count-display" class="text-4xl sm:text-6xl font-extrabold text-white font-serif-garamond tracking-tight text-shadow-lg">
+                  14,892
+                </div>
+                <div class="text-base sm:text-lg text-white/90 font-helvetica mt-1 text-shadow-sm">
+                  Votive Candles Lit in History by Faithful Worldwide
+                </div>
+              </div>
+              <p class="text-sm sm:text-base text-white/90 leading-relaxed font-helvetica text-shadow-sm">
+                Light a spiritual votive candle before Blessed Ivan Merz in thanksgiving, for your personal intentions, or to unite your heart with our global prayer for the sanctification and deliverance of Catholic youth.
+              </p>
+              <div class="pt-2 space-y-3">
+                <input id="candle-intention-input" type="text" placeholder="Optional: Enter silent prayer intention (e.g., for my family, youth sanctification...)" class="w-full px-5 py-3 rounded-full bg-black/40 border border-white/25 text-white text-xs sm:text-sm outline-none focus:border-white transition font-helvetica" />
+                <div class="flex flex-wrap items-center gap-3">
+                  <button id="btn-light-candle" onclick="handleLightCandle()" class="px-8 py-3.5 rounded-full text-xs sm:text-sm md:text-base font-semibold tracking-wide transition-all shadow-xl cursor-pointer flex items-center gap-2 bg-white text-black hover:bg-white/90 active:scale-95">
+                    <svg class="w-4 h-4 fill-current text-amber-500" viewBox="0 0 24 24"><path d="M8.5 14.5A3.5 3.5 0 0 0 12 18a3.5 3.5 0 0 0 3.5-3.5c0-1.5-1.5-3.5-3.5-5.5-2 2-3.5 4-3.5 5.5Z"/><path d="M12 2c-4 4.5-8 9-8 13.5a8 8 0 0 0 16 0C20 11 16 6.5 12 2Z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                    <span id="candle-btn-text">Light a Votive Candle</span>
+                  </button>
+                  <div id="candle-lit-msg" class="hidden flex items-center gap-2 text-xs sm:text-sm text-emerald-400 font-medium font-helvetica text-shadow-sm">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Your candle burns in perpetual intercession.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: INTERACTIVE 32 GLORY BE CHAPLET (Light Glass) -->
+      <section id="chaplet" class="w-full max-w-[1360px] py-16 font-helvetica select-none">
+        <div class="flex flex-col items-center text-center mb-10">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-xs sm:text-sm text-white/90 uppercase tracking-widest mb-3 text-shadow-sm">
+            <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"/><line x1="5" y1="8" x2="19" y2="8"/></svg>
+            <span>Interactive Sacramental Devotion</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-tight font-serif-garamond text-shadow-lg">
+            The Chaplet of Blessed Ivan Merz
+          </h2>
+          <p class="text-base sm:text-lg text-white/90 max-w-[650px] mt-2 leading-relaxed text-shadow-sm">
+            Recite the preliminaries (Our Father, Hail Mary, The Apostle’s Creed), followed by 32 Glory Be’s with invocations, and conclude with the official Prayer for Canonization.
+          </p>
+        </div>
+
+        <!-- Chaplet Interactive Frame (Light Glass) -->
+        <div class="p-8 sm:p-12 rounded-[44px] bg-black/25 backdrop-blur-sm border border-white/20 shadow-xl flex flex-col items-center">
+          
+          <!-- Progress Tracker Bar -->
+          <div class="w-full max-w-3xl mb-8">
+            <div class="flex items-center justify-between text-xs sm:text-sm text-white/80 mb-2.5 text-shadow-sm">
+              <span id="chaplet-step-title">Preliminary 1 · The Lord’s Prayer (Our Father)</span>
+              <span id="chaplet-percentage" class="text-white font-semibold">0%</span>
+            </div>
+            <div class="w-full h-2 bg-black/40 rounded-full overflow-hidden border border-white/10">
+              <div id="chaplet-progress-bar" class="h-full bg-white transition-all duration-300" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- Garland of Beads Visualizer -->
+          <div id="chaplet-beads-container" class="flex flex-wrap justify-center items-center gap-2 max-w-2xl mb-8">
+            <!-- Dynamically populated by JavaScript -->
+          </div>
+
+          <!-- Active Prayer Content Card (Light Glass) -->
+          <div id="chaplet-active-card" class="w-full max-w-2xl p-6 sm:p-10 rounded-3xl bg-black/20 border border-white/20 backdrop-blur-sm mb-8 text-center shadow-lg">
+            <!-- Dynamically populated by JavaScript -->
+          </div>
+
+          <!-- Recitation Controls -->
+          <div class="flex flex-wrap items-center justify-center gap-3">
+            <button id="btn-chaplet-prev" onclick="handleChapletPrev()" class="hidden px-6 py-3 rounded-full bg-black/30 border border-white/20 text-xs sm:text-sm text-white hover:bg-white/20 transition cursor-pointer flex items-center gap-2 text-shadow-sm">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+              <span>Previous</span>
+            </button>
+            <button id="btn-chaplet-next" onclick="handleChapletNext()" class="px-8 py-3.5 rounded-full bg-white text-black text-xs sm:text-sm md:text-base font-semibold hover:bg-white/90 active:scale-95 transition-all shadow-xl cursor-pointer flex items-center gap-2">
+              <span id="chaplet-next-label">Recite Our Father & Proceed</span>
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button id="btn-chaplet-reset" onclick="handleChapletReset()" class="hidden p-3 rounded-full bg-black/30 border border-white/20 text-white/80 hover:text-white transition cursor-pointer" title="Reset Chaplet">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 6: MEMBERSHIP & JOIN SECTION (Light Glass) -->
+      <section id="join" class="w-full max-w-[1360px] py-16 font-helvetica select-none">
+        <div class="flex flex-col items-center text-center mb-12">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/30 backdrop-blur-sm border border-white/20 text-xs sm:text-sm text-white/90 uppercase tracking-widest mb-3 text-shadow-sm">
+            <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Membership & Community Chapters</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-semibold text-white tracking-tight font-serif-garamond text-shadow-lg">
+            Membership
+          </h2>
+          <p class="text-base sm:text-lg text-white/90 max-w-[680px] mt-2 leading-relaxed text-shadow-sm">
+            Open to all Catholic faithful, especially youth, seeking structure, purity of life, and apostolic witness under the mantle of Blessed Ivan Merz.
+          </p>
+        </div>
+
+        <!-- 3 Membership Cards (Light Glass) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div class="p-8 sm:p-10 rounded-[36px] bg-black/20 backdrop-blur-sm border border-white/20 shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center mb-5">
+                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-bold text-white font-serif-garamond mb-3 text-shadow-md">Aspiring Members</h3>
+              <p class="text-sm sm:text-base text-white/90 leading-relaxed mb-5 text-shadow-sm">
+                Open to any Catholic at least <strong class="text-white">12 years of age</strong> who undergoes a minimum of one month of formation, studying the Handbook and Golden Book.
+              </p>
+              <ul class="text-sm text-white/85 space-y-2.5">
+                <li class="flex items-center gap-2.5">
+                  <svg class="w-4 h-4 text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span>One-month foundational formation</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                  <svg class="w-4 h-4 text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span>Daily prayerful discipline</span>
+                </li>
+              </ul>
+            </div>
+            <div class="pt-6 border-t border-white/10 mt-6 text-xs sm:text-sm text-white/60 text-shadow-sm">Introductory level</div>
+          </div>
+
+          <div class="p-8 sm:p-10 rounded-[36px] bg-black/20 backdrop-blur-sm border border-white/30 shadow-xl flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-white/15 border border-white/30 flex items-center justify-center mb-5">
+                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-bold text-white font-serif-garamond mb-3 text-shadow-md">Regular Members</h3>
+              <p class="text-sm sm:text-base text-white/90 leading-relaxed mb-5 text-shadow-sm">
+                Those who have completed formation, taken the <strong class="text-white">Solemn Oath</strong>, and carry the official ministry cross and emblem.
+              </p>
+              <ul class="text-sm text-white/85 space-y-2.5">
+                <li class="flex items-center gap-2.5">
+                  <svg class="w-4 h-4 text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span>Invested with the AYPM Emblem</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                  <svg class="w-4 h-4 text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span>Carries the Official Ministry Cross</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                  <svg class="w-4 h-4 text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span>Committed to daily sacramental prayer</span>
+                </li>
+              </ul>
+            </div>
+            <div class="pt-6 border-t border-white/10 mt-6 text-xs sm:text-sm text-white/60 text-shadow-sm">Active apostolic witness</div>
+          </div>
+
+          <div class="p-8 sm:p-10 rounded-[36px] bg-black/20 backdrop-blur-sm border border-white/20 shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center mb-5">
+                <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-bold text-white font-serif-garamond mb-3 text-shadow-md">Chapter Members</h3>
+              <p class="text-sm sm:text-base text-white/90 leading-relaxed mb-5 text-shadow-sm">
+                Local <strong class="text-white">campus communities or general communities</strong> organized under a patron saint, meeting monthly for prayer, formation, and reports.
+              </p>
+              <ul class="text-sm text-white/85 space-y-2.5">
+                <li class="flex items-center gap-2.5">
+                  <svg class="w-4 h-4 text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span>Campus & student fellowships</span>
+                </li>
+                <li class="flex items-center gap-2.5">
+                  <svg class="w-4 h-4 text-white shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span>General community prayer cells</span>
+                </li>
+              </ul>
+            </div>
+            <div class="pt-6 border-t border-white/10 mt-6 text-xs sm:text-sm text-white/60 text-shadow-sm">Organized community units</div>
+          </div>
+        </div>
+
+        <!-- Prominent Call to Action Banner (Light Glass) -->
+        <div class="p-8 sm:p-12 rounded-[40px] bg-black/25 backdrop-blur-sm border border-white/25 shadow-2xl flex flex-col items-center text-center">
+          <div class="w-14 h-14 rounded-2xl bg-white/10 border border-white/25 flex items-center justify-center mb-4">
+            <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <h3 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-white font-serif-garamond mb-2.5 text-shadow-md">
+            Ready to Walk the Path of Sanctity?
+          </h3>
+          <p class="text-sm sm:text-base text-white/90 max-w-lg mb-8 leading-relaxed text-shadow-sm">
+            Learn more about formation requirements, obtaining official Golden Books, or establishing a campus or general community chapter.
+          </p>
+          <button onclick="openInquiryModal()" class="px-9 sm:px-12 py-4 rounded-full bg-white text-black text-xs sm:text-sm md:text-base font-semibold tracking-wider uppercase hover:bg-white/90 active:scale-95 transition-all shadow-[0_8px_30px_rgba(255,255,255,0.25)] cursor-pointer flex items-center gap-3">
+            <span>Inquire About Membership</span>
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+          <span class="text-xs sm:text-sm text-white/70 mt-4 text-shadow-sm">
+            Apostle of the Youth Prayer Movement · Blessed Ivan Merz Family
+          </span>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- OFFICIAL FOOTER (Light Glass) -->
+    <footer class="w-full border-t border-white/15 bg-black/40 backdrop-blur-md py-12 px-4 sm:px-8 font-helvetica select-none">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex flex-col items-center md:items-start text-center md:text-left">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-sm font-bold tracking-[0.16em] text-white uppercase text-shadow-sm">
+              AYPM · Apostle of the Youth Prayer Movement
+            </span>
+          </div>
+          <p class="text-xs text-white/70 max-w-[500px] leading-relaxed text-shadow-sm">
+            A spiritual initiative of the Blessed Ivan Merz Family, canonically erected under the protection of the Diocese of Banja Luka (Canons 321–326).
+          </p>
+          <div class="text-[11px] text-white/50 mt-1">
+            Zagreb 1923 · Diocese of Banja Luka
+          </div>
+        </div>
+        <div class="text-center md:text-right">
+          <div class="text-sm italic font-serif-garamond text-white text-shadow-sm">
+            "Ducere et Docere Populum Iesum"
+          </div>
+          <div class="text-xs text-white/60 mt-0.5">
+            Sacrifice • Eucharist • Apostolate
+          </div>
+          <div class="text-[11px] text-white/50 mt-2">
+            © <span id="copyright-year">2026</span> AYPM. Handbook & Golden Book (2025 Edition).
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- MEMBERSHIP INQUIRY MODAL (Subtle blur) -->
+  <div id="inquiry-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/60 backdrop-blur-sm font-helvetica select-none">
+    <div class="w-full max-w-lg rounded-[36px] bg-[#0c0d10]/95 border border-white/25 shadow-2xl flex flex-col overflow-hidden max-h-[90vh]">
+      <div class="flex items-center justify-between px-6 py-5 border-b border-white/10">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </div>
+          <div>
+            <h3 class="text-base font-semibold text-white font-serif-garamond">Inquire About Membership</h3>
+            <span class="text-[10px] text-white/50">Apostle of the Youth Prayer Movement</span>
+          </div>
+        </div>
+        <button onclick="closeInquiryModal()" class="p-1.5 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition cursor-pointer">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="p-6 sm:p-8 overflow-auto bg-black/40">
+        <div id="inquiry-sent-state" class="hidden py-8 text-center space-y-3">
+          <svg class="w-12 h-12 text-white mx-auto animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+          <h4 class="text-2xl font-bold text-white font-serif-garamond">Inquiry Transmitted</h4>
+          <p class="text-xs text-white/75 leading-relaxed max-w-[340px] mx-auto">
+            Thank you for your interest. The AYPM Secretariat will respond to your inquiry with the Handbook, Golden Book guide, and formation steps.
+          </p>
+        </div>
+
+        <form id="inquiry-form" onsubmit="handleInquirySubmit(event)" class="space-y-4">
+          <div>
+            <label class="block text-[11px] uppercase tracking-wider text-white/60 mb-1">Your Full Name</label>
+            <input type="text" required placeholder="e.g. Maria Teresa Santos" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.05] border border-white/15 text-white text-xs outline-none focus:border-white transition" />
+          </div>
+          <div>
+            <label class="block text-[11px] uppercase tracking-wider text-white/60 mb-1">Email Address</label>
+            <input type="email" required placeholder="youremail@example.com" class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.05] border border-white/15 text-white text-xs outline-none focus:border-white transition" />
+          </div>
+          <div>
+            <label class="block text-[11px] uppercase tracking-wider text-white/60 mb-1">Community Chapter Type</label>
+            <select class="w-full px-3.5 py-2.5 rounded-xl bg-neutral-900 border border-white/15 text-white text-xs outline-none focus:border-white transition">
+              <option>Campus Community (University / College)</option>
+              <option>General Youth Community</option>
+              <option>Parish Youth Fellowship</option>
+              <option>Individual Aspiring Member</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[11px] uppercase tracking-wider text-white/60 mb-1">Personal Message or Location</label>
+            <textarea rows="3" placeholder="Tell us about your school, parish, or desire to join..." class="w-full px-3.5 py-2.5 rounded-xl bg-white/[0.05] border border-white/15 text-white text-xs outline-none focus:border-white transition resize-none"></textarea>
+          </div>
+          <button type="submit" class="w-full py-3 rounded-full bg-white text-black text-xs font-semibold uppercase tracking-wider hover:bg-white/90 active:scale-95 transition shadow-lg cursor-pointer flex items-center justify-center gap-2">
+            <span>Send Inquiry</span>
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prayer Offered Toast Notification -->
+  <div id="prayer-toast" class="fixed bottom-6 right-6 hidden px-5 py-2.5 rounded-full bg-white text-black text-xs font-semibold shadow-2xl items-center gap-2 z-50 font-helvetica">
+    <svg class="w-3.5 h-3.5 fill-current text-red-500" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+    <span id="prayer-toast-text">You offered a prayer</span>
+  </div>
+
+  <!-- SCRIPT: CANVAS 300-FRAME ENGINE & WEBSITE INTERACTION -->
+  <script>
+    /* =====================================================================
+       1. HARDWARE-ACCELERATED 300-FRAME SCROLL ANIMATION ENGINE
+       ===================================================================== */
+    const TOTAL_FRAMES = 300;
+    const FOLDER = 'New Ani GF';
+    const canvas = document.getElementById('animation-canvas');
+    const ctx = canvas.getContext('2d', { alpha: false });
+
+    const images = new Array(TOTAL_FRAMES);
+    let targetProgress = 0;
+    let currentProgress = 0;
+    let lastRenderedIndex = -1;
+    let lastValidIndex = 1;
+    let isFirstFrameDrawn = false;
+
+    function getFramePath(index) {
+      const num = String(index).padStart(3, '0');
+      return `${encodeURIComponent(FOLDER)}/ezgif-frame-${num}.jpg`;
+    }
+
+    function resizeCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+
+      if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+      }
+
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+
+      const frameIndex = Math.min(TOTAL_FRAMES, Math.max(1, Math.round(1 + currentProgress * (TOTAL_FRAMES - 1))));
+      drawFrame(frameIndex);
+    }
+
+    function renderCover(img) {
+      if (!img || !img.complete || img.naturalWidth === 0) return;
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const iw = img.naturalWidth;
+      const ih = img.naturalHeight;
+
+      const scale = Math.max(cw / iw, ch / ih);
+      const nw = iw * scale;
+      const nh = ih * scale;
+      const cx = (cw - nw) / 2;
+      const cy = (ch - nh) / 2;
+
+      ctx.drawImage(img, cx, cy, nw, nh);
+    }
+
+    function drawFrame(frameIndex) {
+      const idx = Math.max(1, Math.min(TOTAL_FRAMES, frameIndex));
+      const img = images[idx - 1];
+
+      if (img && img.complete && img.naturalWidth > 0) {
+        renderCover(img);
+        lastRenderedIndex = idx;
+        lastValidIndex = idx;
+      } else if (lastValidIndex > 0 && images[lastValidIndex - 1]?.complete) {
+        renderCover(images[lastValidIndex - 1]);
+      }
+    }
+
+    function getScrollProgress() {
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const totalHeight = Math.max(
+        document.documentElement.scrollHeight,
+        document.body.scrollHeight,
+        document.documentElement.offsetHeight,
+        document.body.offsetHeight
+      );
+      const windowHeight = window.innerHeight || 1;
+      const maxScroll = totalHeight - windowHeight;
+
+      if (maxScroll <= 0) return 0;
+      return Math.min(Math.max(scrollY / maxScroll, 0), 1);
+    }
+
+    const LERP_FACTOR = 0.12;
+
+    function tick() {
+      targetProgress = getScrollProgress();
+      const diff = targetProgress - currentProgress;
+
+      if (Math.abs(diff) > 0.00005) {
+        currentProgress += diff * LERP_FACTOR;
+      } else {
+        currentProgress = targetProgress;
+      }
+
+      const frameToDraw = Math.min(
+        TOTAL_FRAMES,
+        Math.max(1, Math.round(1 + currentProgress * (TOTAL_FRAMES - 1)))
+      );
+
+      if (frameToDraw !== lastRenderedIndex) {
+        drawFrame(frameToDraw);
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    // Preload all 300 frames with background decoding
+    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+      const img = new Image();
+      img.src = getFramePath(i);
+      images[i - 1] = img;
+
+      if ('decode' in img) {
+        img.decode().catch(() => {});
+      }
+
+      img.onload = () => {
+        if (i === 1 && !isFirstFrameDrawn) {
+          isFirstFrameDrawn = true;
+          resizeCanvas();
+          drawFrame(1);
+        }
+      };
+    }
+
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+    window.addEventListener('scroll', () => { targetProgress = getScrollProgress(); }, { passive: true });
+
+    resizeCanvas();
+    targetProgress = getScrollProgress();
+    currentProgress = targetProgress;
+    requestAnimationFrame(tick);
+
+    if (images[0] && images[0].complete) {
+      isFirstFrameDrawn = true;
+      drawFrame(1);
+    }
+
+    /* =====================================================================
+       2. NAVIGATION & SCROLL SPY
+       ===================================================================== */
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      if (menu) {
+        menu.classList.toggle('hidden');
+        menu.classList.toggle('flex');
+      }
+    }
+
+    // Active Section Scroll Spy
+    window.addEventListener('scroll', () => {
+      const sections = ['hero', 'about', 'patron', 'prayer-cards', 'chaplet', 'join'];
+      const scrollPos = window.scrollY + 220;
+
+      for (const section of sections) {
+        const el = document.getElementById(section);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPos >= top && scrollPos < top + height) {
+            sections.forEach(s => {
+              const link = document.getElementById(`nav-${s}`);
+              if (link) {
+                if (s === section) {
+                  link.classList.add('text-white', 'font-semibold');
+                  link.classList.remove('text-white/80');
+                } else {
+                  link.classList.remove('text-white', 'font-semibold');
+                  link.classList.add('text-white/80');
+                }
+              }
+            });
+            break;
+          }
+        }
+      }
+    }, { passive: true });
+
+    /* =====================================================================
+       3. VOTIVE CANDLE ALTAR (Interactive & Persistent)
+       ===================================================================== */
+    let candlesLit = 14892;
+    let hasUserLitCandle = false;
+
+    // Load saved data
+    try {
+      const savedCandles = localStorage.getItem('aypm_candles_count');
+      const savedUserLit = localStorage.getItem('aypm_user_lit_candle');
+      if (savedCandles) candlesLit = parseInt(savedCandles, 10);
+      if (savedUserLit === 'true') {
+        hasUserLitCandle = true;
+        document.getElementById('candle-lit-msg').classList.remove('hidden');
+        document.getElementById('candle-btn-text').textContent = 'Light Another Candle';
+      }
+      document.getElementById('candle-count-display').textContent = candlesLit.toLocaleString();
+    } catch (e) {}
+
+    function handleLightCandle() {
+      candlesLit += 1;
+      hasUserLitCandle = true;
+      document.getElementById('candle-count-display').textContent = candlesLit.toLocaleString();
+      document.getElementById('candle-lit-msg').classList.remove('hidden');
+      document.getElementById('candle-btn-text').textContent = 'Light Another Candle';
+
+      const halo = document.getElementById('candle-halo');
+      halo.className = 'absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[550px] bg-amber-400/25 blur-[160px] rounded-full pointer-events-none transition-all duration-1000';
+
+      try {
+        localStorage.setItem('aypm_candles_count', candlesLit.toString());
+        localStorage.setItem('aypm_user_lit_candle', 'true');
+      } catch (e) {}
+
+      setTimeout(() => {
+        halo.className = 'absolute top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[620px] h-[440px] bg-amber-500/[0.14] blur-[140px] rounded-full pointer-events-none transition-all duration-1000 candle-glow-pulse';
+      }, 1200);
+    }
+
+    /* =====================================================================
+       4. PRAYER CARDS COUNTER & TOAST
+       ===================================================================== */
+    const prayedCounts = { ivan: 4890, christus: 3740 };
+
+    function handlePrayCard(id, title) {
+      prayedCounts[id] += 1;
+      const countEl = document.getElementById(`count-${id}`);
+      if (countEl) countEl.textContent = `${prayedCounts[id].toLocaleString()} Faithful Prayed`;
+
+      const toast = document.getElementById('prayer-toast');
+      const toastText = document.getElementById('prayer-toast-text');
+      toastText.textContent = `You offered: ${title}`;
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+
+      setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }, 2500);
+    }
+
+    /* =====================================================================
+       5. INTERACTIVE 32 GLORY BE CHAPLET DEVOTION
+       ===================================================================== */
+    let chapletStep = 0;
+    const CHAPLET_TOTAL_STEPS = 36;
+
+    const chapletPrayers = {
+      ourFather: `Our Father, Who art in heaven, hallowed be Thy Name; Thy kingdom come; Thy will be done on earth as it is in heaven.
+
+Give us this day our daily bread; and forgive us our trespasses, as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil. Amen.`,
+      hailMary: `Hail Mary, full of grace, the Lord is with thee; blessed art thou among women, and blessed is the fruit of thy womb, Jesus.
+
+Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen.`,
+      creed: `I believe in God the Father almighty, 
+Creator of heaven and earth. 
+And in Jesus Christ, His only Son, 
+our Lord, Who was conceived by the Holy Spirit,
+born of the Virgin Mary, 
+suffered under Pontius Pilate,
+was crucified, died, and was buried.
+He descended into hell; the third day 
+He rose again from the dead;
+He ascended into heaven, and sits at 
+the right hand of God the Father 
+almighty, from thence He shall come
+to judge the living and the dead.
+I believe in the Holy Spirit,
+the holy Catholic Church,
+the communion of saints, 
+the forgiveness of sins, 
+the resurrection of the body and life everlasting.
+Amen.`,
+      gloryBe: `Glory be to the Father, and to the Son, and to the Holy Spirit: as it was in the beginning, is now, and ever shall be, world without end. Amen.`,
+      invocation: `Blessed Ivan Merz, pray for us!`,
+      canonization: `Loving and Merciful God, you chose your servant Blessed Ivan Merz to be one of our intercessors in heaven. His life of total dedication to you through chastity, service to the Church, education and formation of the youth, promotion of liturgical renewal and love and fidelity to the Pope are truly inspiring. May he imbue and help me to be a saint. Through Blessed Ivan’s intercession grant me the favor I request (here make your petition), and in your mercy deign to grant us his canonization. We ask this through our Lord Jesus Christ, your Son, who lives and reigns with you and the Holy Spirit, one God, for ever and ever. Amen.`
+    };
+
+    function renderChaplet() {
+      const titleEl = document.getElementById('chaplet-step-title');
+      const percEl = document.getElementById('chaplet-percentage');
+      const barEl = document.getElementById('chaplet-progress-bar');
+      const cardEl = document.getElementById('chaplet-active-card');
+      const nextBtnLabel = document.getElementById('chaplet-next-label');
+      const prevBtn = document.getElementById('btn-chaplet-prev');
+      const resetBtn = document.getElementById('btn-chaplet-reset');
+      const garland = document.getElementById('chaplet-beads-container');
+
+      // Title & Percentage
+      const percentage = chapletStep <= 35 ? Math.round((chapletStep / 36) * 100) : 100;
+      percEl.textContent = `${percentage}%`;
+      barEl.style.width = `${percentage}%`;
+
+      if (chapletStep === 0) titleEl.textContent = 'Preliminary 1 · The Lord’s Prayer (Our Father)';
+      else if (chapletStep === 1) titleEl.textContent = 'Preliminary 2 · The Angelic Salutation (Hail Mary)';
+      else if (chapletStep === 2) titleEl.textContent = 'Preliminary 3 · The Apostle’s Creed';
+      else if (chapletStep >= 3 && chapletStep <= 34) titleEl.textContent = `Bead ${chapletStep - 2} of 32 · Glory Be & Invocation`;
+      else if (chapletStep === 35) titleEl.textContent = 'Concluding Prayer for Canonization of Blessed Ivan Merz';
+      else titleEl.textContent = 'Chaplet Completed · Deo Gratias!';
+
+      // Buttons visibility
+      if (chapletStep > 0 && chapletStep <= 35) {
+        prevBtn.classList.remove('hidden');
+        resetBtn.classList.remove('hidden');
+      } else {
+        prevBtn.classList.add('hidden');
+        if (chapletStep === 0) resetBtn.classList.add('hidden');
+      }
+
+      // Next button text
+      if (chapletStep === 0) nextBtnLabel.textContent = 'Recite Our Father & Proceed';
+      else if (chapletStep === 1) nextBtnLabel.textContent = 'Recite Hail Mary & Proceed';
+      else if (chapletStep === 2) nextBtnLabel.textContent = 'Recite Creed & Begin 32 Glory Be’s';
+      else if (chapletStep >= 3 && chapletStep < 34) nextBtnLabel.textContent = `Pray Glory Be #${chapletStep - 2} & Next`;
+      else if (chapletStep === 34) nextBtnLabel.textContent = 'Complete 32nd Glory Be & Proceed to Canonization Prayer';
+      else if (chapletStep === 35) nextBtnLabel.textContent = 'Complete Chaplet & Offer 3x Doxologies';
+      else nextBtnLabel.textContent = 'Pray Chaplet Again';
+
+      // Garland of beads HTML
+      let garlandHtml = `
+        <div class="px-3 py-1 rounded-full text-[11px] font-helvetica transition-all ${chapletStep === 0 ? 'bg-white text-black font-semibold scale-105' : chapletStep > 0 ? 'bg-white/40 text-white' : 'bg-white/10 text-white/40'}">Our Father</div>
+        <div class="px-3 py-1 rounded-full text-[11px] font-helvetica transition-all ${chapletStep === 1 ? 'bg-white text-black font-semibold scale-105' : chapletStep > 1 ? 'bg-white/40 text-white' : 'bg-white/10 text-white/40'}">Hail Mary</div>
+        <div class="px-3 py-1 rounded-full text-[11px] font-helvetica transition-all ${chapletStep === 2 ? 'bg-white text-black font-semibold scale-105' : chapletStep > 2 ? 'bg-white/40 text-white' : 'bg-white/10 text-white/40'}">Creed</div>
+      `;
+
+      for (let i = 1; i <= 32; i++) {
+        const beadStep = i + 2;
+        const isCurrent = chapletStep === beadStep;
+        const isDone = chapletStep > beadStep;
+        garlandHtml += `
+          <div class="w-3 h-3 rounded-full transition-all duration-200 ${isCurrent ? 'bg-white shadow-[0_0_12px_rgba(255,255,255,1)] scale-125' : isDone ? 'bg-white/60' : 'bg-white/15'}" title="Bead ${i}"></div>
+        `;
+      }
+
+      garlandHtml += `
+        <div class="px-3 py-1 rounded-full text-[11px] font-helvetica transition-all ${chapletStep === 35 ? 'bg-white text-black font-semibold scale-105' : chapletStep > 35 ? 'bg-white/40 text-white' : 'bg-white/10 text-white/40'}">Canonization</div>
+      `;
+      garland.innerHTML = garlandHtml;
+
+      // Card Content HTML
+      if (chapletStep === 0) {
+        cardEl.innerHTML = `
+          <div class="space-y-4">
+            <span class="text-[10px] uppercase tracking-widest text-white/60 block">Preliminary Step 1</span>
+            <h3 class="text-2xl sm:text-3xl font-semibold text-white font-serif-garamond text-shadow-md">The Lord's Prayer (Our Father)</h3>
+            <p class="text-sm sm:text-xl text-white/95 leading-relaxed font-serif-garamond italic whitespace-pre-line text-shadow-sm">${chapletPrayers.ourFather}</p>
+          </div>
+        `;
+      } else if (chapletStep === 1) {
+        cardEl.innerHTML = `
+          <div class="space-y-4">
+            <span class="text-[10px] uppercase tracking-widest text-white/60 block">Preliminary Step 2</span>
+            <h3 class="text-2xl sm:text-3xl font-semibold text-white font-serif-garamond text-shadow-md">The Angelic Salutation (Hail Mary)</h3>
+            <p class="text-sm sm:text-xl text-white/95 leading-relaxed font-serif-garamond italic whitespace-pre-line text-shadow-sm">${chapletPrayers.hailMary}</p>
+          </div>
+        `;
+      } else if (chapletStep === 2) {
+        cardEl.innerHTML = `
+          <div class="space-y-4">
+            <span class="text-[10px] uppercase tracking-widest text-white/60 block">Preliminary Step 3</span>
+            <h3 class="text-2xl sm:text-3xl font-semibold text-white font-serif-garamond text-shadow-md">The Apostles' Creed</h3>
+            <p class="text-xs sm:text-base text-white/95 leading-relaxed font-serif-garamond italic text-left sm:text-center whitespace-pre-line text-shadow-sm">${chapletPrayers.creed}</p>
+          </div>
+        `;
+      } else if (chapletStep >= 3 && chapletStep <= 34) {
+        cardEl.innerHTML = `
+          <div class="space-y-5">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/30 border border-white/20 text-xs text-white/90 uppercase tracking-widest text-shadow-sm">
+              <span>Glory Be #${chapletStep - 2} of 32</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-bold text-white font-serif-garamond text-shadow-md">Doxology to the Most Holy Trinity</h3>
+            <p class="text-sm sm:text-lg text-white/95 leading-relaxed font-serif-garamond italic text-shadow-sm">"${chapletPrayers.gloryBe}"</p>
+            <div class="p-4 rounded-2xl bg-black/25 border border-white/20 mt-4">
+              <span class="text-[10px] text-white/60 uppercase tracking-widest block mb-1">Response & Intercession</span>
+              <div class="text-base sm:text-xl font-bold text-white font-serif-garamond tracking-wide text-shadow-md">"${chapletPrayers.invocation}"</div>
+              <div class="text-xs text-white/70 italic font-serif-garamond mt-1">Beate Ioannes Merz, ora pro nobis!</div>
+            </div>
+          </div>
+        `;
+      } else if (chapletStep === 35) {
+        cardEl.innerHTML = `
+          <div class="space-y-4 text-left sm:text-center">
+            <span class="text-[10px] uppercase tracking-widest text-white/60 block">Concluding Chaplet Devotion</span>
+            <h3 class="text-2xl sm:text-3xl font-semibold text-white font-serif-garamond text-center text-shadow-md">Prayer for the Canonization of Blessed Ivan Merz</h3>
+            <p class="text-xs sm:text-base text-white/95 leading-relaxed font-serif-garamond italic whitespace-pre-line text-shadow-sm">"${chapletPrayers.canonization}"</p>
+            <div class="p-3.5 rounded-xl bg-black/30 border border-white/20 text-xs text-white font-semibold text-center text-shadow-sm">Our Father, Hail Mary, Glory be (3x)</div>
+          </div>
+        `;
+      } else {
+        cardEl.innerHTML = `
+          <div class="py-6 space-y-4 text-center">
+            <svg class="w-14 h-14 text-white mx-auto animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            <h3 class="text-3xl font-bold text-white font-serif-garamond text-shadow-md">Deo Gratias! Chaplet Completed</h3>
+            <p class="text-sm text-white/90 max-w-md mx-auto leading-relaxed font-serif-garamond italic text-shadow-sm">
+              You have offered 32 Glory Be’s and the Canonization Prayer in thanksgiving for the life of Blessed Ivan Merz and for the sanctification and protection of the youth.
+            </p>
+            <div class="pt-2 text-xs text-white/70 text-shadow-sm">"Plamen za visinama" — A flame for the heights.</div>
+          </div>
+        `;
+      }
+    }
+
+    function handleChapletNext() {
+      if (chapletStep < 36) {
+        chapletStep++;
+      } else {
+        chapletStep = 0;
+      }
+      renderChaplet();
+    }
+
+    function handleChapletPrev() {
+      if (chapletStep > 0) {
+        chapletStep--;
+        renderChaplet();
+      }
+    }
+
+    function handleChapletReset() {
+      chapletStep = 0;
+      renderChaplet();
+    }
+
+    renderChaplet();
+
+    /* =====================================================================
+       6. MEMBERSHIP INQUIRY MODAL
+       ===================================================================== */
+    function openInquiryModal() {
+      const modal = document.getElementById('inquiry-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeInquiryModal() {
+      const modal = document.getElementById('inquiry-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.getElementById('inquiry-sent-state').classList.add('hidden');
+      document.getElementById('inquiry-form').classList.remove('hidden');
+    }
+
+    function handleInquirySubmit(e) {
+      e.preventDefault();
+      document.getElementById('inquiry-form').classList.add('hidden');
+      document.getElementById('inquiry-sent-state').classList.remove('hidden');
+
+      setTimeout(() => {
+        closeInquiryModal();
+      }, 2600);
+    }
+  </script>
+</body>
+</html>
